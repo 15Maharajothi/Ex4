@@ -1,0 +1,62 @@
+import java.util.*;
+
+interface CompareShapes {
+    double area();
+    double perimeter();
+    int compare(Object o);
+}
+
+class Rectangle implements CompareShapes {
+    private double length;
+    private double width;
+
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    @Override
+    public double area() {
+        return length * width;
+    }
+
+    @Override
+    public double perimeter() {
+        return 2 * (length + width);
+    }
+
+    @Override
+    public int compare(Object o) {
+        CompareShapes otherShape = (CompareShapes) o;
+        if (this.area() < otherShape.area()) {
+            return -1;
+        } else if (this.area() > otherShape.area()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle rectangle1 = new Rectangle(5, 10);
+        Rectangle rectangle2 = new Rectangle(3, 6);
+        Rectangle rectangle3 = new Rectangle(7, 4);
+        Rectangle rectangle4 = new Rectangle(2, 8);
+        Rectangle rectangle5 = new Rectangle(9, 2);
+
+        List<Rectangle> rectangles = new ArrayList<>();
+        rectangles.add(rectangle1);
+        rectangles.add(rectangle2);
+        rectangles.add(rectangle3);
+        rectangles.add(rectangle4);
+        rectangles.add(rectangle5);
+
+        Collections.sort(rectangles, Comparator.comparingDouble(CompareShapes::area));
+
+        for (Rectangle rectangle : rectangles) {
+            System.out.println("Rectangle with area " + rectangle.area());
+        }
+    }
+}
